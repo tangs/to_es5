@@ -177,8 +177,8 @@ const readDir = (dir) => {
     }
 };
 
-readDir('cfg1');
 readDir('cfg');
+readDir('cfg1');
 
 save('data/RADIO.csv', S_RADIO);
 save('data/MULTISELECT.csv', S_MULTISELECT);
