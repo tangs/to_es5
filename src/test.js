@@ -34,8 +34,6 @@ const addCell = (datas, data) => {
             }
         }
     }
-    // console.log(py);
-    // console.log(words);
     const cell = [words, data.examTitle, data.answer]
     datas.push(cell);
 } 
@@ -90,10 +88,6 @@ const save = (path, datas) => {
         const answer = data[2].substr(1, data[2].length - 2);
         const title = data[1].trim().replace(new RegExp(',','g'), '，');
         let py = data[0].toUpperCase();
-        // const code = py.charCodeAt(0);
-        // if ((code >= 'A'.charCodeAt(0) && code <='Z'.charCodeAt(0))
-        //     || (code >= 'a'.charCodeAt(0) && code <= 'z'.charCodeAt(0)))
-        //     py = '';
         const cell = `${py},${title},${answer}`.trim();
         txt += cell + '\n';
     }
@@ -131,16 +125,6 @@ const deal = (datas) => {
             const idx = deal();
             if (idx === false) break;
         } while (true);
-        // for (let i = 0; i < data.answer.length; ++i) {
-        //     if (data.answer[i].indexOf(',') != -1) {
-        //         console.dir(data.answer);
-        //         console.log(i);
-        //         console.log(data.answer[i]);
-        //     }
-        //     data.answer[i] = data.answer[i].replace(new RegExp('\n','g'), '');
-        //     data.answer[i] = data.answer[i].replace(new RegExp(',','g'), '，');
-        // }
-        // console.log(`${data.examTitle}, ${data.answer}`);
         switch (data.questionType) {
             case 1: {
                 addCell(S_RADIO, data);
@@ -168,14 +152,15 @@ readDatas('data/RADIO.csv', S_RADIO);
 readDatas('data/MULTISELECT.csv', S_MULTISELECT);
 readDatas('data/JUDGE.csv', S_JUDGE);
 
-// const files = [];
-// const files1 = fs.readdirSync('cfg');
-// console.dir(files1);
-// return;
-
-
 const readDir = (dir) => {
-    const files = fs.readdirSync(dir);
+    let files = fs.readdirSync(dir);
+    files.sort((a, b) => {
+        console.log(a, b);
+        const num1 = parseInt(a.substr(0, a.indexOf('.json')));
+        const num2 = parseInt(b.substr(0, b.indexOf('.json')));
+        // console.log(num1, num2);
+        return num1 - num2;
+    })
     for (const file of files) {
         const path = `${dir}/${file}`;
         console.log(path);
@@ -194,28 +179,6 @@ const readDir = (dir) => {
 
 readDir('cfg1');
 readDir('cfg');
-// for (let i = 0; i < 5; ++i) {
-//     const path = `cfg1/${i}.json`;
-//     console.log(path);
-//     const json = JSON.parse(fs.readFileSync(path).toString());
-//     if (json.data.papers == null) {
-//         json.data.papers = json.data;
-//     }
-//     const { RADIO, MULTISELECT, JUDGE } = json.data.papers;
-//     deal(RADIO);
-//     deal(MULTISELECT);
-//     deal(JUDGE);
-//     const sum = S_RADIO.length + S_MULTISELECT.length + S_JUDGE.length;
-//     console.log(`${sum}: ${S_RADIO.length} ${S_MULTISELECT.length} ${S_JUDGE.length}\n`)
-// }
-
-// fs.readFile('cfg/1.json', (err, data) => {
-//     const json = JSON.parse(data);
-//     const { RADIO, MULTISELECT, JUDGE } = json.data.papers;
-//     deal(RADIO);
-//     deal(MULTISELECT);
-//     deal(JUDGE);
-// });
 
 save('data/RADIO.csv', S_RADIO);
 save('data/MULTISELECT.csv', S_MULTISELECT);
