@@ -5,6 +5,14 @@ const S_RADIO = [];
 const S_MULTISELECT = [];
 const S_JUDGE = [];
 
+const dealstr = (str) => {
+    let str1 = str.replace(/[(]/g, '（');
+    str1 = str1.replace(/[)]/g, '）');
+    str1 = str1.replace(/[ ]+/g, ' ');
+    str1 = str1.replace(/,/g, '，');
+    return str1;
+}
+
 const hasSameQ = (datas, data) => {
     for (const cell of datas) {
         if (cell[1].trim() === data.examTitle.trim())
@@ -14,6 +22,7 @@ const hasSameQ = (datas, data) => {
 }
 
 const addCell = (datas, data) => {
+    data.examTitle = dealstr(data.examTitle);
     if (hasSameQ(datas, data)) return;
     // const answer = data.answer.substr(1, data.answer.length - 2);
     // const cell = `${data.examTitle},${answer}`;
@@ -86,7 +95,11 @@ const save = (path, datas) => {
     datas = sort(datas);
     for (const data of datas) {
         const answer = data[2].substr(1, data[2].length - 2);
-        const title = data[1].trim().replace(new RegExp(',','g'), '，');
+        // let title = data[1].trim().replace(new RegExp(',','g'), '，');
+        // title = title.replace(/[(]/g, '（');
+        // title = title.replace(/[)]/g, '）');
+        // title = title.replace(/ /g, '');
+        const title = data[1];
         let py = data[0].toUpperCase();
         const cell = `${py},${title},${answer}`.trim();
         txt += cell + '\n';
