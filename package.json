@@ -21,6 +21,9 @@
     "@babel/polyfill": "^7.6.0",
     "core-js": "^2.6.9",
     "fs": "0.0.1-security",
-    "pinyin": "^2.9.0"
+    "http": "0.0.0",
+    "https": "^1.0.0",
+    "pinyin": "^2.9.0",
+    "querystring": "^0.2.0"
   }
 }

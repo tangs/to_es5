@@ -99,7 +99,12 @@ const deal = (datas) => {
         // console.dir(data);
         if (data.examTitle == null) {
             data.examTitle = data.examQuestionTitle;
+            // data.questionType = data.type;
+        }
+        if (data.answer == null) {
             data.answer = data.successAnswers;
+        }
+        if (data.questionType == null) {
             data.questionType = data.type;
         }
         data.examTitle = data.examTitle.replace(new RegExp('\n','g'), '');
@@ -155,7 +160,7 @@ readDatas('data/JUDGE.csv', S_JUDGE);
 const readDir = (dir) => {
     let files = fs.readdirSync(dir);
     files.sort((a, b) => {
-        console.log(a, b);
+        // console.log(a, b);
         const num1 = parseInt(a.substr(0, a.indexOf('.json')));
         const num2 = parseInt(b.substr(0, b.indexOf('.json')));
         // console.log(num1, num2);
@@ -165,7 +170,12 @@ const readDir = (dir) => {
         const path = `${dir}/${file}`;
         console.log(path);
         const json = JSON.parse(fs.readFileSync(path).toString());
-        if (json.data.papers == null) {
+        if (json.data.UserExamAnswersVO != null) {
+            json.data.papers = json.data.UserExamAnswersVO;
+            json.data.UserExamAnswersVO.RADIO = json.data.UserExamAnswersVO.radio;
+            json.data.UserExamAnswersVO.MULTISELECT = json.data.UserExamAnswersVO.multiselect;
+            json.data.UserExamAnswersVO.JUDGE = json.data.UserExamAnswersVO.judge;
+        } else if (json.data.papers == null) {
             json.data.papers = json.data;
         }
         const { RADIO, MULTISELECT, JUDGE } = json.data.papers;
@@ -179,6 +189,8 @@ const readDir = (dir) => {
 
 readDir('cfg');
 readDir('cfg1');
+readDir('cfg4');
+// readDir('cfg2');
 
 save('data/RADIO.csv', S_RADIO);
 save('data/MULTISELECT.csv', S_MULTISELECT);
