@@ -166,10 +166,6 @@ const readDatas = (path, obj) => {
     // console.log(data);
 }
 
-readDatas('data/RADIO.csv', S_RADIO);
-readDatas('data/MULTISELECT.csv', S_MULTISELECT);
-readDatas('data/JUDGE.csv', S_JUDGE);
-
 const readDir = (dir) => {
     let files = fs.readdirSync(dir);
     files.sort((a, b) => {
@@ -200,9 +196,19 @@ const readDir = (dir) => {
     }
 };
 
-readDir('cfg');
-readDir('cfg1');
-readDir('cfg4');
+// 汽车
+const dirs1 = ['cfg', 'cfg1', 'cfg4'];
+
+// 烹饪
+const dirs = ['cfg2'];
+
+readDatas('data/RADIO.csv', S_RADIO);
+readDatas('data/MULTISELECT.csv', S_MULTISELECT);
+readDatas('data/JUDGE.csv', S_JUDGE);
+
+for (const dir of dirs1) {
+    readDir(dir);
+}
 // readDir('cfg2');
 
 save('data/RADIO.csv', S_RADIO);
