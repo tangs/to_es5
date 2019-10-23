@@ -198,19 +198,21 @@ const readDir = (dir) => {
 
 // 汽车
 const dirs1 = ['cfg', 'cfg1', 'cfg4'];
+const dataForder = 'data';
 
 // 烹饪
-const dirs = ['cfg2'];
+// const dirs1 = ['cfg2'];
+// const dataForder = 'data_pr';
 
-readDatas('data/RADIO.csv', S_RADIO);
-readDatas('data/MULTISELECT.csv', S_MULTISELECT);
-readDatas('data/JUDGE.csv', S_JUDGE);
+readDatas(`${dataForder}/RADIO.csv`, S_RADIO);
+readDatas(`${dataForder}/MULTISELECT.csv`, S_MULTISELECT);
+readDatas(`${dataForder}/JUDGE.csv`, S_JUDGE);
 
 for (const dir of dirs1) {
     readDir(dir);
 }
 // readDir('cfg2');
 
-save('data/RADIO.csv', S_RADIO);
-save('data/MULTISELECT.csv', S_MULTISELECT);
-save('data/JUDGE.csv', S_JUDGE);
+save(`${dataForder}/RADIO.csv`, S_RADIO);
+save(`${dataForder}/MULTISELECT.csv`, S_MULTISELECT);
+save(`${dataForder}/JUDGE.csv`, S_JUDGE);

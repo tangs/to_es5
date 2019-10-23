@@ -48,6 +48,7 @@ const start_exam = (callback) => {
         res.on("end", function () {
             const buff = Buffer.concat(datas, size);
             const result = buff.toString();
+            console.log(result);
             const json = JSON.parse(result);
             if (json.data.papers == null) {
                 json.data.papers = json.data;
