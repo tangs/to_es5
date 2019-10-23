@@ -3,8 +3,12 @@ const qs = require('querystring');
 const fs = require('fs');
 
 const host = 'api.weijiuye.com.cn';
+// 烹饪
 // const examId = '1563504780152398';
+// const distDir = 'cfg2';
+// 汽车
 const examId = '1563428974900338';
+const distDir = 'cfg4';
 
 let examRecordId = '1571808150901527';
 const token = 'de5574896d25492d81c5a9e03a91b053'
@@ -116,7 +120,7 @@ const start_get_score = (callback) => {
         res.on("end", function () {
             const buff = Buffer.concat(datas, size);
             // const result = buff.toString();
-            fs.writeFileSync(`cfg4/${Date.now()}.json`, buff);
+            fs.writeFileSync(`${distDir}/${Date.now()}.json`, buff);
             callback();
         });  
     }).on("error", function (err) {  
