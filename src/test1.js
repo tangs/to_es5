@@ -55,7 +55,7 @@ const login = (callback) => {
         });
         
         res.on('end', secCheck => {        
-            console.log(dd);
+            // console.log(dd);
             const json = JSON.parse(dd);
             token = json.data.token;
             console.log(`token:${token}`);
