@@ -1,6 +1,14 @@
 const fs = require("fs");
 const pinyin = require("pinyin");
 
+// 汽车
+// const dirs1 = ['cfg', 'cfg1', 'cfg4'];
+// const dataForder = 'data';
+
+// 烹饪
+const dirs1 = ['cfg2'];
+const dataForder = 'data_pr';
+
 const S_RADIO = [];
 const S_MULTISELECT = [];
 const S_JUDGE = [];
@@ -195,14 +203,6 @@ const readDir = (dir) => {
         console.log(`${sum}: ${S_RADIO.length} ${S_MULTISELECT.length} ${S_JUDGE.length}\n`)
     }
 };
-
-// 汽车
-const dirs1 = ['cfg', 'cfg1', 'cfg4'];
-const dataForder = 'data';
-
-// 烹饪
-// const dirs1 = ['cfg2'];
-// const dataForder = 'data_pr';
 
 readDatas(`${dataForder}/RADIO.csv`, S_RADIO);
 readDatas(`${dataForder}/MULTISELECT.csv`, S_MULTISELECT);
