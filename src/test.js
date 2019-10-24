@@ -1,5 +1,6 @@
 const fs = require("fs");
 const pinyin = require("pinyin");
+const Excel = require("exceljs");
 
 // 汽车
 // const dirs1 = ['cfg', 'cfg1', 'cfg4'];
@@ -98,17 +99,46 @@ const sort = (datas) => {
     });
 }
 
+const saveExcel = (path, datas, sheets) => {
+    const workbook = new Excel.Workbook();
+    const len = datas.length;
+    for (let i = 0; i < len; ++i) {
+        const data = datas[i];
+        const sheet = sheets[i];
+        const worksheet = workbook.addWorksheet(sheet);
+
+        const cellCnt = data.length;
+
+        worksheet.getCell('A1').value = '索引';
+        worksheet.getCell('B1').value = '题目';
+        worksheet.getCell('C1').value = '答案';
+
+        for (let j = 0; j < cellCnt; ++j) {
+            const idx = j + 2;
+            const cell = data[j];
+            const py = cell[0].toUpperCase();
+            const title = cell[1];
+            const answers = cell[2].substr(1, cell[2].length - 2).split(',');
+            worksheet.getCell(`A${idx}`).value = py;
+            worksheet.getCell(`B${idx}`).value = title;
+            let colCode = 'C'.charCodeAt(0);
+            for (const answer of answers) {
+                worksheet.getCell(`${String.fromCharCode(colCode)}${idx}`).value = answer;
+                ++colCode;
+            }
+            // worksheet.getCell(`C${idx}`).value = answer;
+        }
+    }
+    workbook.xlsx.writeFile(path);
+};
+
 const save = (path, datas) => {
     let txt = '';
     datas = sort(datas);
     for (const data of datas) {
-        const answer = data[2].substr(1, data[2].length - 2);
-        // let title = data[1].trim().replace(new RegExp(',','g'), '，');
-        // title = title.replace(/[(]/g, '（');
-        // title = title.replace(/[)]/g, '）');
-        // title = title.replace(/ /g, '');
+        const py = data[0].toUpperCase();
         const title = data[1];
-        let py = data[0].toUpperCase();
+        const answer = data[2].substr(1, data[2].length - 2);
         const cell = `${py},${title},${answer}`.trim();
         txt += cell + '\n';
     }
@@ -216,3 +246,5 @@ for (const dir of dirs1) {
 save(`${dataForder}/RADIO.csv`, S_RADIO);
 save(`${dataForder}/MULTISELECT.csv`, S_MULTISELECT);
 save(`${dataForder}/JUDGE.csv`, S_JUDGE);
+saveExcel(`${dataForder}/${Date.now()}.xlsx`, [S_RADIO, S_MULTISELECT, S_JUDGE], 
+    ['单选', '多选', '判断'])
