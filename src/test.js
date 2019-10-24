@@ -7,13 +7,13 @@ const config = require("./config");
 // 汽车
 let dirs1 = ['cfg', 'cfg1', 'cfg4'];
 let dataForder = 'data';
-let filenamePrefix = '中式烹调师-初级-练习试卷';
+let filenamePrefix = '汽车维修工-初级-练习试卷';
 
 if (config.type == 2) {
     // 烹饪
     dirs1 = ['cfg2'];
     dataForder = 'data_pr';
-    filenamePrefix = '汽车维修工-初级-练习试卷';
+    filenamePrefix = '中式烹调师-初级-练习试卷';
 }
 // const dirs1 = ['cfg2'];
 // const dataForder = 'data_pr';
