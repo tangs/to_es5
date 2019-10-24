@@ -2,13 +2,19 @@ const fs = require("fs");
 const pinyin = require("pinyin");
 const Excel = require("exceljs");
 
-// 汽车
-// const dirs1 = ['cfg', 'cfg1', 'cfg4'];
-// const dataForder = 'data';
+const config = require("./config");
 
-// 烹饪
-const dirs1 = ['cfg2'];
-const dataForder = 'data_pr';
+// 汽车
+let dirs1 = ['cfg', 'cfg1', 'cfg4'];
+let dataForder = 'data';
+
+if (config.type == 2) {
+    // 烹饪
+    dirs1 = ['cfg2'];
+    dataForder = 'data_pr';
+}
+// const dirs1 = ['cfg2'];
+// const dataForder = 'data_pr';
 
 const S_RADIO = [];
 const S_MULTISELECT = [];

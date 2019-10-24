@@ -2,14 +2,23 @@ const https = require('https')
 const qs = require('querystring');
 const fs = require('fs');
 
+const config = require("./config");
+
 const host = 'api.weijiuye.com.cn';
 const phone = '13608039966';
-// 烹饪
+
+// 汽车
+let examId = '1563428974900338';
+let distDir = 'cfg4';
+
+if (config.type == 2) {
+    // 烹饪
+    examId = '1563504780152398';
+    distDir = 'cfg2';
+}
+
 // const examId = '1563504780152398';
 // const distDir = 'cfg2';
-// 汽车
-const examId = '1563428974900338';
-const distDir = 'cfg4';
 
 let examRecordId = '';
 let token = ''
