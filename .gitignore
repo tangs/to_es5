@@ -1,8 +1,8 @@
 node_modules
 .DS_Store
 dist/
-cfg2/
-cfg4/
+#cfg2/
+#cfg4/
 data_pr/*.xlsx
 data/*.xlsx
 
