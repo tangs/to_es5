@@ -4,7 +4,9 @@ const fs = require('fs');
 
 const config = require("./config");
 
-const host = 'api.weijiuye.com.cn';
+// const host = 'api.weijiuye.com.cn';
+const host = 'api.cdwork.cn';
+const port = 8443;
 const phone = '13608039966';
 
 // 汽车
@@ -52,10 +54,11 @@ const login = (callback) => {
         hostname: host,
         path: '/user/user/user_login',
         method: 'POST',
-        port: 443,
+        port: port,
         headers: {        
             'Content-Type': 'application/x-www-form-urlencoded'      
-        }    
+        },
+        rejectUnauthorized: false
     };
     const req = https.request(options, res => {
         let dd = '';
@@ -74,15 +77,28 @@ const login = (callback) => {
         res.on('error', err => {        
             console.error(err);       
         });
-     });
+     }).on("error", function (err) {  
+        console.error(err.stack)  
+        // callback.apply(null);  
+    });
      req.write(postData);
      req.end();
 };
 
 // let datas = '';
 const start_exam = (callback) => {
-    const url_start = `https://${host}/exam/exam/start_exam?examId=${examId}&token=${token}`;
-    https.get(url_start, (res) => {
+    const options = {
+        hostname: host,
+        path: `/exam/exam/start_exam?examId=${examId}&token=${token}`,
+        method: 'GET',
+        port: port,
+        headers: {        
+            'Content-Type': 'application/x-www-form-urlencoded'      
+        },
+        rejectUnauthorized: false
+    };
+    // const url_start = `https://${host}:${port}/exam/exam/start_exam?examId=${examId}&token=${token}`;
+    https.get(options, (res) => {
         const datas = [];  
         let size = 0;  
         res.on('data', function (data) {  
@@ -93,9 +109,10 @@ const start_exam = (callback) => {
         res.on("end", function () {
             const buff = Buffer.concat(datas, size);
             const result = buff.toString();
+            // console.log(result);
             const json = JSON.parse(result);
             if (json.code != 0) {
-                console.log(result);
+                console.log('cod:' + result);
                 return;
             }
             if (json.data.papers == null) {
@@ -114,7 +131,8 @@ const start_exam = (callback) => {
             callback(json.data.examRecordId, ids);
         });  
     }).on("error", function (err) {  
-        Logger.error(err.stack)  
+        console.error('err:start_exam');
+        console.error(err.stack);
         // callback.apply(null);  
     }); 
 };
@@ -124,10 +142,11 @@ const create_exam_answer = (postData, callback) => {
         hostname: host,
         path: '/exam/exam/create_exam_answer',
         method: 'POST',
-        port: 443,
+        port: port,
         headers: {        
             'Content-Type': 'application/x-www-form-urlencoded'      
-        }    
+        },
+        rejectUnauthorized: false
     };
     const req = https.request(options, res => {
         let dd = '';
@@ -150,9 +169,19 @@ const create_exam_answer = (postData, callback) => {
 };
 
 const start_get_score = (callback) => {
-    const url = `https://${host}/exam/exam/get_user_score?examRecordId=${examRecordId}&token=${token}`;
+    const options = {
+        hostname: host,
+        path: `/exam/exam/get_user_score?examRecordId=${examRecordId}&token=${token}`,
+        method: 'GET',
+        port: port,
+        headers: {        
+            'Content-Type': 'application/x-www-form-urlencoded'      
+        },
+        rejectUnauthorized: false
+    };
+    // const url = `https://${host}:${port}/exam/exam/get_user_score?examRecordId=${examRecordId}&token=${token}`;
 
-    https.get(url, (res) => {
+    https.get(options, (res) => {
         const datas = [];  
         let size = 0;  
         res.on('data', function (data) {  
@@ -166,8 +195,9 @@ const start_get_score = (callback) => {
             fs.writeFileSync(`${distDir}/${Date.now()}.json`, buff);
             callback();
         });  
-    }).on("error", function (err) {  
-        Logger.error(err.stack)  
+    }).on("error", function (err) {
+        console.error('err:start_get_score');
+        console.error(err.stack);
         // callback.apply(null);  
     }); 
 };
