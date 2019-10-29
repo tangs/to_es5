@@ -14,6 +14,11 @@ if (config.type == 2) {
     dirs1 = ['cfg2'];
     dataForder = 'data_pr';
     filenamePrefix = '中式烹调师-初级-练习试卷';
+} else if (config.type == 3) {
+    // 烹饪
+    dirs1 = ['cfg5'];
+    dataForder = 'data_qzj';
+    filenamePrefix = '起重装卸机械操作工-初级-练习试卷';
 }
 // const dirs1 = ['cfg2'];
 // const dataForder = 'data_pr';
@@ -242,9 +247,9 @@ const readDir = (dir) => {
     }
 };
 
-readDatas(`${dataForder}/RADIO.csv`, S_RADIO);
-readDatas(`${dataForder}/MULTISELECT.csv`, S_MULTISELECT);
-readDatas(`${dataForder}/JUDGE.csv`, S_JUDGE);
+// readDatas(`${dataForder}/RADIO.csv`, S_RADIO);
+// readDatas(`${dataForder}/MULTISELECT.csv`, S_MULTISELECT);
+// readDatas(`${dataForder}/JUDGE.csv`, S_JUDGE);
 
 for (const dir of dirs1) {
     readDir(dir);

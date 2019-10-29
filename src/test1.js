@@ -17,6 +17,9 @@ if (config.type == 2) {
     // 烹饪
     examId = '1563504780152398';
     distDir = 'cfg2';
+} else if (config.type == 3) {
+    examId = '1563437353980112';
+    distDir = 'cfg5';
 }
 
 // const examId = '1563504780152398';
@@ -230,7 +233,7 @@ const run = () => {
         // console.log(data);
         create_exam_answer(qs.encode(data), () => {
             start_get_score(() => {
-                setTimeout(run, 5000);
+                setTimeout(run, 20000);
             })
         });
     });
