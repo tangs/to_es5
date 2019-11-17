@@ -4,8 +4,8 @@ const fs = require('fs');
 
 const config = require("./config");
 
-// const host = 'api.weijiuye.com.cn';
-const host = 'api.cdwork.cn';
+const host = 'api.weijiuye.com.cn';
+// const host = 'api.cdwork.cn';
 const port = 8443;
 const phone = '13608039966';
 
@@ -111,27 +111,30 @@ const start_exam = (callback) => {
         });  
         res.on("end", function () {
             const buff = Buffer.concat(datas, size);
-            const result = buff.toString();
-            // console.log(result);
-            const json = JSON.parse(result);
-            if (json.code != 0) {
-                console.log('cod:' + result);
-                return;
-            }
-            if (json.data.papers == null) {
-                json.data.papers = json.data;
-            }
-            const { RADIO, MULTISELECT, JUDGE } = json.data.papers;
-            const arr = [RADIO, MULTISELECT, JUDGE];
-            const ids = [];
-            for (const data of arr) {
-                for (const data1 of data) {
-                    ids.push(data1.examQuestionId);
-                }
-            }
-            examRecordId = json.data.examRecordId;
-            console.log(`examRecordId:${examRecordId}`);
-            callback(json.data.examRecordId, ids);
+            // const result = buff.toString();
+            fs.writeFileSync(`${distDir}/${Date.now()}.json`, buff);
+            callback();
+            // const result = buff.toString();
+            // // console.log(result);
+            // const json = JSON.parse(result);
+            // if (json.code != 0) {
+            //     console.log('cod:' + result);
+            //     return;
+            // }
+            // if (json.data.papers == null) {
+            //     json.data.papers = json.data;
+            // }
+            // const { RADIO, MULTISELECT, JUDGE } = json.data.papers;
+            // const arr = [RADIO, MULTISELECT, JUDGE];
+            // const ids = [];
+            // for (const data of arr) {
+            //     for (const data1 of data) {
+            //         ids.push(data1.examQuestionId);
+            //     }
+            // }
+            // examRecordId = json.data.examRecordId;
+            // console.log(`examRecordId:${examRecordId}`);
+            // callback(json.data.examRecordId, ids);
         });  
     }).on("error", function (err) {  
         console.error('err:start_exam');
@@ -212,30 +215,31 @@ const run = () => {
             })
         });
     }).then(([examRecordId, ids]) => {
-        console.log(`questions len: ${ids.length}`);
-        const examAnswerList = [];
-        for (const id of ids) {
-            examAnswerList.push({
-                examQuestionId: id,
-                examQuestionScenarioId: '',
-                examAnswers: [],
-                examRecordId: examRecordId
-            });
-        }
-        // const listData = JSON.stringify(examAnswerList);
-        // const data = `socket=0&examAnswerList=${listData}&token=${token}`;
-        const data = {
-            socket: 0,
-            examAnswerList: JSON.stringify(examAnswerList),
-            token: token
-        };
-        // console.log(qs.encode(data));
-        // console.log(data);
-        create_exam_answer(qs.encode(data), () => {
-            start_get_score(() => {
-                setTimeout(run, 20000);
-            })
-        });
+        setTimeout(run, 20000);
+        // console.log(`questions len: ${ids.length}`);
+        // const examAnswerList = [];
+        // for (const id of ids) {
+        //     examAnswerList.push({
+        //         examQuestionId: id,
+        //         examQuestionScenarioId: '',
+        //         examAnswers: [],
+        //         examRecordId: examRecordId
+        //     });
+        // }
+        // // const listData = JSON.stringify(examAnswerList);
+        // // const data = `socket=0&examAnswerList=${listData}&token=${token}`;
+        // const data = {
+        //     socket: 0,
+        //     examAnswerList: JSON.stringify(examAnswerList),
+        //     token: token
+        // };
+        // // console.log(qs.encode(data));
+        // // console.log(data);
+        // create_exam_answer(qs.encode(data), () => {
+        //     start_get_score(() => {
+        //         setTimeout(run, 20000);
+        //     })
+        // });
     });
 };
 run();
